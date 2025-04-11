@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header className="header">
       <div className="logo-container">
-        <img src="globe.png" alt="Logo" className="logo" />
+        <img src="/globe.png" alt="Logo" className="logo" />
         <h3>Country Information</h3>
         
       </div>
