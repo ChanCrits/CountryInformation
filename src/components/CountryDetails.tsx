@@ -39,7 +39,7 @@ const CountryDetails: React.FC<CountryDetailsProps> = ({
       console.error(`Border country with code "${borderCode}" not found in countries array.`);
     }
   };
-   // Fetch visitor IP and count unique visitors
+   
   
 
   return (

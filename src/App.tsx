@@ -18,7 +18,7 @@ const App: React.FC = () => {
       .get<Country[]>("https://restcountries.com/v3.1/all")
       .then((res) => {
         setCountries(res.data);
-        setFilteredCountries(res.data); // Initialize filteredCountries with all countries
+        setFilteredCountries(res.data); 
         const china = res.data.find(
           (country) => country.name.common === "China"
         );
@@ -35,9 +35,9 @@ const App: React.FC = () => {
     setFilteredCountries(filtered);
 
     if (filtered.length > 0) {
-      setSelectedCountry(filtered[0]); // Automatically select the first match
+      setSelectedCountry(filtered[0]); 
     } else {
-      setSelectedCountry(null); // Clear selection if no match
+      setSelectedCountry(null); 
     }
   };
 
@@ -47,7 +47,7 @@ const App: React.FC = () => {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         handleSearch={handleSearch}
-        countries={countries} // Pass countries here
+        countries={countries} 
       />
       <div className="container my-2">
         {selectedCountry && (

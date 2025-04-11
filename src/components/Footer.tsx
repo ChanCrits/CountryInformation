@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
     <footer className="footer">
       <div className="visitor-count">
         <img
-          src="/visitors.png" // Replace with your icon path
+          src="/visitors.png" 
           alt="Visitor Icon"
           className="visitor-icon"
         />

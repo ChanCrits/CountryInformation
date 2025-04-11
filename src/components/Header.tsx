@@ -18,21 +18,21 @@ const Header: React.FC<HeaderProps> = ({
 
   const filteredCountries = countries.filter((country) => {
     if (filter === "region") {
-      return country.region === "Asia"; // Example: Filter by region (Asia)
+      return country.region === "Asia";
     } else if (filter === "population") {
-      return country.population > 50000000; // Example: Filter by population size
+      return country.population > 50000000; 
     } else if (filter === "all") {
-      return true; // Show all countries
+      return true; 
     }
-    return true; // Default: No filter
+    return true; 
   });
 
   const handleFilterChange = (value: string) => {
     setFilter(value);
     if (value === "all" || value === "region" || value === "population") {
-      setShowModal(true); // Automatically show the modal when a filter is selected
+      setShowModal(true); 
     } else {
-      setShowModal(false); // Close the modal if no filter is selected
+      setShowModal(false); 
     }
   };
 
