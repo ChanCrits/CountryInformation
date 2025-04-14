@@ -210,14 +210,65 @@ body {
   word-wrap: break-word; /* Handle long country names */
 }
 
+/* Add waving animation */
+@keyframes wave {
+  0% {
+    transform: rotateZ(0deg) translateX(0) skewX(0deg);
+  }
+  25% {
+    transform: rotateZ(1deg) translateX(1px) skewX(1deg);
+  }
+  50% {
+    transform: rotateZ(0deg) translateX(0) skewX(0deg);
+  }
+  75% {
+    transform: rotateZ(-1deg) translateX(-1px) skewX(-1deg);
+  }
+  100% {
+    transform: rotateZ(0deg) translateX(0) skewX(0deg);
+  }
+}
+
+/* many flags */
 .country-flag {
   width: 100px; /* Increase flag size */
   height: 100px; /* Maintain consistent aspect ratio */
   object-fit: cover; /* Ensure the flag fits within the dimensions */
   margin-bottom: 10px; /* Add spacing below the flag */
+  animation: wave 2s infinite ease-in-out; /* Add waving animation */
+  transform-origin: left center; /* Make the flag wave from the left edge */
 }
 
 
+/* single flag */
+@keyframes flagWave {
+  0% {
+    transform: rotateZ(0deg) translateX(0) skewX(0deg);
+  }
+  25% {
+    transform: rotateZ(1deg) translateX(1px) skewX(1deg);
+  }
+  50% {
+    transform: rotateZ(0deg) translateX(0) skewX(0deg);
+  }
+  75% {
+    transform: rotateZ(-1deg) translateX(-1px) skewX(-1deg);
+  }
+  100% {
+    transform: rotateZ(0deg) translateX(0) skewX(0deg);
+  }
+}
+
+/* single flag */
+.flag-animation {
+  box-shadow: 0 3px 5px rgba(255, 255, 255, 0.2); /* Optional: Add a subtle shadow */
+  width: 150px; /* Set a consistent size */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure the flag fits within the dimensions */
+  animation: flagWave 3s infinite ease-in-out; /* Add waving animation */
+  transform-origin: left center; /* Make the flag wave from the left edge */
+  margin-bottom: 10px; /* Add spacing below the flag */
+}
 
 
 /* Responsive styles */

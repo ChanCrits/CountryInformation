@@ -1,4 +1,3 @@
-//
 import React, { useEffect, useState } from "react";
 
 const Footer: React.FC = () => {
@@ -7,12 +6,10 @@ const Footer: React.FC = () => {
   useEffect(() => {
     const fetchVisitorData = async () => {
       try {
-        // Fetch the visitor's IP address
         const ipResponse = await fetch("https://api.ipify.org?format=json");
         const ipData = await ipResponse.json();
         const visitorIP = ipData.ip;
 
-        // Fetch the current visitor data from JSONBin
         const binResponse = await fetch("https://api.jsonbin.io/v3/b/67f93b1d8960c979a58320cc", {
           headers: {
             "X-Master-Key": "$2a$10$wMRaiZnIvQURH/FT61YRp.Lc9dRC.hFWzvDYmahRDx5q63cOftnwi",
@@ -21,13 +18,10 @@ const Footer: React.FC = () => {
         const binData = await binResponse.json();
         const { visitorCount, countedIPs } = binData.record;
 
-        // Check if the IP is already counted
         if (!countedIPs.includes(visitorIP)) {
-          // Increment the visitor count and add the IP
           const updatedVisitorCount = visitorCount + 1;
           const updatedIPs = [...countedIPs, visitorIP];
 
-          // Update the JSONBin with the new data
           await fetch("https://api.jsonbin.io/v3/b/67f93b1d8960c979a58320cc", {
             method: "PUT",
             headers: {
@@ -62,6 +56,14 @@ const Footer: React.FC = () => {
         />
         Visitors: {visitorCount}
       </div>
+      {/* <div className="social-icons">
+        <a href="https://facebook.com/ChanCrits" target="_blank" rel="noopener noreferrer">
+          <i className="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://github.com/ChanCrits" target="_blank" rel="noopener noreferrer">
+          <i className="fab fa-github"></i>
+        </a>
+      </div> */}
       <p>© 2025 Country Info Visualizer | Siong</p>
     </footer>
   );

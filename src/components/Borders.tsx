@@ -20,7 +20,10 @@ const Borders: React.FC<BordersProps> = ({ borders, countries, onCountrySelect }
         borders.map((border) => (
           <button
             key={border}
-            onClick={() => onCountrySelect(border)}
+            onClick={() => {
+              console.log(`Border clicked: ${border}`); 
+              onCountrySelect(border);
+            }}
             className="border-button"
           >
             {getBorderName(border)}

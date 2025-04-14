@@ -15,16 +15,58 @@ const App: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get<Country[]>("https://restcountries.com/v3.1/all")
+      .get("https://countries-api-abhishek.vercel.app/countries")
       .then((res) => {
-        setCountries(res.data);
-        setFilteredCountries(res.data); 
-        const china = res.data.find(
-          (country) => country.name.common === "China"
-        );
-        if (china) setSelectedCountry(china);
+        console.log("API Response:", res.data); 
+
+     
+        const countriesData = res.data.data;
+
+        if (Array.isArray(countriesData)) {
+         
+          const mappedCountries = countriesData.map((country: any) => ({
+            name: { common: country.name },
+            capital: country.capital ? [country.capital] : undefined,
+            region: country.region,
+            subregion: country.subregion,
+            population: country.population,
+            area: country.area,
+            latlng: country.latitude !== undefined && country.longitude !== undefined
+              ? [country.latitude, country.longitude] as [number, number]
+              : [0, 0] as [number, number],
+            borders: country.borders,
+            timezones: country.timezones,
+            currencies: country.currencies
+              ? Object.entries(country.currencies).reduce(
+                  (acc, [key, value]) => ({
+                    ...acc,
+                    [key]: { name: value },
+                  }),
+                  {}
+                )
+              : undefined,
+            languages: country.languages,
+            flags: { png: country.flag, svg: country.flag },
+            cca3: country.alpha3Code,
+          }));
+
+          setCountries(mappedCountries);
+          setFilteredCountries(mappedCountries);
+
+            (country: any) => country.name.common === "Afghanistan"
+          const afghanistan = mappedCountries.find(
+            (country: Country) => country.name.common === "Afghanistan"
+          );
+          if (afghanistan) setSelectedCountry(afghanistan);
+        } else {
+          console.error("Unexpected API response format:", countriesData);
+          alert("Failed to load countries. Unexpected response format.");
+        }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error("Failed to fetch countries:", err);
+        alert("Failed to load countries. Please try again later.");
+      });
   }, []);
 
   const handleSearch = (query: string) => {
@@ -35,27 +77,32 @@ const App: React.FC = () => {
     setFilteredCountries(filtered);
 
     if (filtered.length > 0) {
-      setSelectedCountry(filtered[0]); 
+      setSelectedCountry(filtered[0]);
     } else {
-      setSelectedCountry(null); 
+      setSelectedCountry(null);
     }
   };
 
   return (
     <Router>
-          <Header
+      <Header
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         handleSearch={handleSearch}
-        countries={countries} 
+        countries={countries}
       />
       <div className="container my-2">
         {selectedCountry && (
           <CountryDetails
-            country={selectedCountry}
-            countries={filteredCountries}
-            onCountrySelect={setSelectedCountry}
-          />
+          country={selectedCountry}
+          countries={filteredCountries}
+          onCountrySelect={(borderCode) => {
+            const borderCountry = countries.find((c) => c.cca3 === String(borderCode));
+            if (borderCountry) {
+              setSelectedCountry(borderCountry);
+            }
+          }}
+        />
         )}
       </div>
       <Footer />
