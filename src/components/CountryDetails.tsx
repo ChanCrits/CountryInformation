@@ -1,4 +1,4 @@
-
+import React from "react";
 import { Country } from "../types/country";
 import Flag from "./Flag";
 import Borders from "./Borders";

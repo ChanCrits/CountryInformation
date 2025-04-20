@@ -17,43 +17,43 @@ const App: React.FC = () => {
     axios
       .get("https://countries-api-abhishek.vercel.app/countries")
       .then((res) => {
-        console.log("API Response:", res.data); 
-
-     
+        console.log("API Response:", res.data);
+  
         const countriesData = res.data.data;
-
+  
         if (Array.isArray(countriesData)) {
-         
-          const mappedCountries = countriesData.map((country: any) => ({
-            name: { common: country.name },
-            capital: country.capital ? [country.capital] : undefined,
-            region: country.region,
-            subregion: country.subregion,
-            population: country.population,
-            area: country.area,
-            latlng: country.latitude !== undefined && country.longitude !== undefined
-              ? [country.latitude, country.longitude] as [number, number]
-              : [0, 0] as [number, number],
-            borders: country.borders,
-            timezones: country.timezones,
-            currencies: country.currencies
-              ? Object.entries(country.currencies).reduce(
-                  (acc, [key, value]) => ({
-                    ...acc,
-                    [key]: { name: value },
-                  }),
-                  {}
-                )
-              : undefined,
-            languages: country.languages,
-            flags: { png: country.flag, svg: country.flag },
-            cca3: country.alpha3Code,
-          }));
-
+          const mappedCountries = countriesData.map((country: any) => {
+            console.log("Country Data:", country); // Debugging line
+  
+            return {
+              name: { common: country.name },
+              capital: country.capital ? [country.capital] : undefined,
+              region: country.region,
+              subregion: country.subregion,
+              population: country.population,
+              area: country.area,
+              latlng: country.coordinates
+                ? [country.coordinates.latitude, country.coordinates.longitude] as [number, number]
+                : [0, 0] as [number, number],
+              borders: country.borders,
+              timezones: country.timezones,
+              currencies: country.currency
+              ? {
+                  [country.currency.match(/\(([^)]+)\)/)?.[1] || "Unknown Code"]: {
+                    name: country.currency.split(" (")[0] || "Unknown Currency",
+                    symbol: "", // Add a placeholder for symbol if not available
+                  },
+                }
+              : {},
+              languages: country.languages,
+              flags: { png: country.flag, svg: country.flag },
+              cca3: country.alpha3Code,
+            };
+          });
+  
           setCountries(mappedCountries);
           setFilteredCountries(mappedCountries);
-
-            (country: any) => country.name.common === "Afghanistan"
+  
           const afghanistan = mappedCountries.find(
             (country: Country) => country.name.common === "Afghanistan"
           );
@@ -94,15 +94,15 @@ const App: React.FC = () => {
       <div className="container my-2">
         {selectedCountry && (
           <CountryDetails
-          country={selectedCountry}
-          countries={filteredCountries}
-          onCountrySelect={(borderCode) => {
-            const borderCountry = countries.find((c) => c.cca3 === String(borderCode));
-            if (borderCountry) {
-              setSelectedCountry(borderCountry);
-            }
-          }}
-        />
+            country={selectedCountry}
+            countries={filteredCountries}
+            onCountrySelect={(borderCode) => {
+              const borderCountry = countries.find((c) => c.cca3 === String(borderCode));
+              if (borderCountry) {
+                setSelectedCountry(borderCountry);
+              }
+            }}
+          />
         )}
       </div>
       <Footer />
